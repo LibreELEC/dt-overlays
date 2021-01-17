@@ -1,0 +1,43 @@
+//SPDX-License-Identifier: GPL-2.0+ or MIT
+//Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "pine64,pine64",
+		     "pine64,pine64-plus",
+		     "pine64,pine64-lts";
+};
+
+&{/} {
+	wifi_pwrseq: wifi_pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&r_pio 0 2 1>; /* PL2 */
+	};
+};
+
+&mmc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins>;
+	vmmc-supply = <&reg_dldo4>;
+	vqmmc-supply = <&reg_eldo1>;
+	mmc-pwrseq = <&wifi_pwrseq>;
+	non-removable;
+	bus-width = <4>;
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+	uart-has-rtscts;
+	status = "okay";
+
+	bluetooth {
+		compatible = "realtek,rtl8723bs-bt";
+		reset-gpios = <&r_pio 0 4 1>; /* PL4 */
+		device-wake-gpios = <&r_pio 0 5 1>; /* PL5 */
+		host-wake-gpios = <&r_pio 0 6 0>; /* PL6 */
+		max-speed = <1500000>;
+	};
+};

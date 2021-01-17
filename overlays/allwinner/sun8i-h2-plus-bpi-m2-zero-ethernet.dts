@@ -1,0 +1,18 @@
+//SPDX-License-Identifier: GPL-2.0+ or MIT
+//Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "sinovoip,bpi-m2-zero";
+};
+
+&{/aliases} {
+	ethernet0 = "/soc/ethernet@1c30000";
+};
+
+&emac {
+	phy-handle = <&int_mii_phy>;
+	phy-mode = "mii";
+	status = "okay";
+};

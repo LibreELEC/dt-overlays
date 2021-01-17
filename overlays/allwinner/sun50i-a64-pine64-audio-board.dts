@@ -1,0 +1,85 @@
+//SPDX-License-Identifier: GPL-2.0+ or MIT
+//Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "pine64,pine64",
+		     "pine64,pine64-plus",
+		     "pine64,pine64-lts";
+};
+
+&{/} {
+	pcm5102: pcm510x {
+		compatible = "ti,pcm5102a";
+		pcm510x,format = "i2s";
+		#sound-dai-cells = <0>;
+	};
+
+	sound_i2s {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "Pine64-DAC";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <256>;
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0>;
+			dai-tdm-slot-num = <2>;
+			dai-tdm-slot-width = <32>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&pcm5102>;
+		};
+	};
+
+	sound_spdif {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "On-board SPDIF";
+
+		simple-audio-card,cpu {
+			sound-dai = <&spdif>;
+		};
+
+		simple-audio-card,codec {
+			sound-dai = <&spdif_out>;
+		};
+	};
+
+	spdif_out: spdif-out {
+		#sound-dai-cells = <0>;
+		compatible = "linux,spdif-dit";
+	};
+};
+
+&i2s0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2s0_bclk>, <&i2s0_lrclk>, <&i2s0_mclk>, <&i2s0_sdo0>;
+	status = "okay";
+};
+
+&pio {
+	i2s0_mclk: i2s0-0 {
+		pins = "PB3";
+		function = "i2s0";
+	};
+
+	i2s0_bclk: i2s0-1 {
+		pins = "PB5";
+		function = "i2s0";
+	};
+
+	i2s0_lrclk: i2s0-2 {
+		pins = "PB4";
+		function = "i2s0";
+	};
+
+	i2s0_sdo0: i2s0-4 {
+		pins = "PB6";
+		function = "i2s0";
+	};
+};
+
+&spdif {
+	status = "okay";
+};
