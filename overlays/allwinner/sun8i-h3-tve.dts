@@ -1,0 +1,12 @@
+//SPDX-License-Identifier: GPL-2.0+ or MIT
+//Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "allwinner,sun8i-h3";
+};
+
+&tve {
+	status = "okay";
+};
